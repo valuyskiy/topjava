@@ -31,7 +31,7 @@ public class UserMealsUtil {
                 .collect(Collectors.toMap(
                         d -> d.getDateTime().toLocalDate(),
                         UserMeal::getCalories,
-                        (d1, d2) -> d1 + d2)
+                        Integer::sum)
                 );
 
         return mealList
@@ -47,22 +47,20 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed> getFilteredWithExceededLoops(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 
-        List<UserMeal> filteredMeal = new ArrayList<>();
         Map<LocalDate, Integer> sumCaloriesPerDay = new HashMap<>();
 
         for (UserMeal meal : mealList) {
-            sumCaloriesPerDay.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), (ov, nv) -> ov + nv);
-            if (TimeUtil.isBetween(meal.getDateTime().toLocalTime(), startTime, endTime)) {
-                filteredMeal.add(meal);
-            }
+            sumCaloriesPerDay.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum);
         }
 
         List<UserMealWithExceed> result = new ArrayList<>();
-        for (UserMeal meal : filteredMeal) {
-            result.add(new UserMealWithExceed(meal.getDateTime(),
-                    meal.getDescription(),
-                    meal.getCalories(),
-                    sumCaloriesPerDay.get(meal.getDateTime().toLocalDate()) > caloriesPerDay));
+        for (UserMeal meal : mealList) {
+            if (TimeUtil.isBetween(meal.getDateTime().toLocalTime(), startTime, endTime)) {
+                result.add(new UserMealWithExceed(meal.getDateTime(),
+                        meal.getDescription(),
+                        meal.getCalories(),
+                        sumCaloriesPerDay.get(meal.getDateTime().toLocalDate()) > caloriesPerDay));
+            }
         }
         return result;
     }
