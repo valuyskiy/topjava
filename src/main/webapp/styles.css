@@ -1,0 +1,35 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+}
+
+table {
+    margin: auto;
+    border: 1px solid #120dff;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+caption {
+    caption-side: top;
+    text-align: left;
+    padding: 10px 0;
+    font-size: 20px;
+}
+
+th {
+    background: #6aa2ff;
+}
+
+tr.normal {
+    vertical-align: top;
+    text-align: center;
+    color: #11ff37;
+}
+
+tr.exceed {
+    vertical-align: top;
+    text-align: center;
+    color: red;
+}
+
