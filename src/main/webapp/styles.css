@@ -3,14 +3,22 @@ body {
     color: #333;
 }
 
-table {
+table.form {
+
+}
+
+tr.form{
+
+}
+
+table.list {
     margin: auto;
     border: 1px solid #120dff;
     border-collapse: collapse;
-    width: 80%;
+    width: 90%;
 }
 
-caption {
+caption.list{
     caption-side: top;
     text-align: left;
     padding: 10px 0;
@@ -33,3 +41,14 @@ tr.exceed {
     color: red;
 }
 
+.error {
+    color: red;
+}
+
+.edit {
+    color: red;
+}
+
+.add {
+    color: green;
+}
