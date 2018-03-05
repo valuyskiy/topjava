@@ -14,6 +14,7 @@ public class Meal {
     private long id;
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
+        this.id = Long.MIN_VALUE;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
@@ -57,5 +58,15 @@ public class Meal {
 
     public void setCalories(int calories) {
         this.calories = calories;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                ", calories=" + calories +
+                ", id=" + id +
+                '}';
     }
 }

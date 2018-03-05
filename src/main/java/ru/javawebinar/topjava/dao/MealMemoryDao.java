@@ -13,10 +13,10 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class MealMemoryDao implements Dao<Meal> {
 
-    private Map<Long, Meal> mealStorage = new ConcurrentHashMap();
+    private Map<Long, Meal> mealStorage = new ConcurrentHashMap<>();
     private AtomicLong nextId = new AtomicLong(0L);
 
-    private MealMemoryDao() {
+    public MealMemoryDao() {
         List<Meal> meals = Arrays.asList(
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 8, 15), "Завтрак", 500),
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
@@ -37,18 +37,10 @@ public class MealMemoryDao implements Dao<Meal> {
         }
     }
 
-    private static class MealMemoryDaoHolder {
-        private final static MealMemoryDao instance = new MealMemoryDao();
-    }
-
-    public static MealMemoryDao getInstance() {
-        return MealMemoryDaoHolder.instance;
-    }
-
     @Override
-    public void add(Meal meal) {
+    public Meal add(Meal meal) {
         meal.setId(nextId.get());
-        mealStorage.put(nextId.getAndIncrement(), meal);
+        return mealStorage.put(nextId.getAndIncrement(), meal);
     }
 
     @Override
@@ -57,8 +49,8 @@ public class MealMemoryDao implements Dao<Meal> {
     }
 
     @Override
-    public void update(Meal meal) {
-        mealStorage.put(meal.getId(), meal);
+    public Meal update(Meal meal) {
+        return mealStorage.put(meal.getId(), meal);
     }
 
     @Override
