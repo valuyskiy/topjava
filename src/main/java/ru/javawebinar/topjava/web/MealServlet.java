@@ -48,38 +48,35 @@ public class MealServlet extends HttpServlet {
                 response.sendRedirect("meals");
                 return;
         }
-        request.getRequestDispatcher("meals.jsp").forward(request, response);
+        request.getRequestDispatcher("/meals.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setCharacterEncoding("UTF-8");
-
-            long id = getId(request);
-            String description = request.getParameter("description");
-            LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"));
-            int calories = Integer.parseInt(request.getParameter("calories"));
             String action = getAction(request);
 
             if (action.equals("edit")) {
-                if (id >= 0) {
+                long id = getId(request);
+                String description = request.getParameter("description");
+                LocalDateTime dateTime = LocalDateTime.parse(request.getParameter("dateTime"));
+                int calories = Integer.parseInt(request.getParameter("calories"));
+                Meal meal = new Meal(dateTime, description, calories);
 
-                    Meal meal = new Meal(dateTime, description, calories);
+                if (id >= 0) {
                     meal.setId(id);
                     log.debug("update meal: " + getDiff(dao.update(meal), meal));
-
                 } else {
-                    Meal mealForAdd = new Meal(dateTime, description, calories);
-                    dao.add(mealForAdd);
-                    log.debug("add new " + mealForAdd.toString());
+                    dao.add(meal);
+                    log.debug("add new " + meal.toString());
                 }
             }
         } catch (Exception e) {
             log.debug("Data error");
             request.setAttribute("errorMessage", "Ошибка ввода данных");
             request.setAttribute("meals", getExceededList());
-            request.getRequestDispatcher("meals.jsp").forward(request, response);
+            request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
         response.sendRedirect("meals");
     }
@@ -101,7 +98,7 @@ public class MealServlet extends HttpServlet {
     }
 
     private String getDiff(Meal oldEntry, Meal newEntry) {
-        String result = "id = " + oldEntry.getId() +" :" ;
+        String result = "id = " + oldEntry.getId() + " :";
         if (!oldEntry.getDateTime().equals(newEntry.getDateTime())) {
             result += " " + oldEntry.getDateTime().toString() + " -> " + newEntry.getDateTime().toString() + " ";
         }
@@ -111,6 +108,6 @@ public class MealServlet extends HttpServlet {
         if (oldEntry.getCalories() != newEntry.getCalories()) {
             result += " " + oldEntry.getCalories() + " -> " + newEntry.getCalories() + " ";
         }
-        return result.toString();
+        return result;
     }
 }
