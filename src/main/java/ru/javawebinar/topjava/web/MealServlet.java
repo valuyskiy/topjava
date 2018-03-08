@@ -66,9 +66,9 @@ public class MealServlet extends HttpServlet {
 
                 if (id >= 0) {
                     meal.setId(id);
-                    log.debug("update meal: " + getDiff(dao.update(meal), meal));
+                    log.debug("update meal: " + getDiff(dao.save(meal), meal));
                 } else {
-                    dao.add(meal);
+                    dao.save(meal);
                     log.debug("add new " + meal.toString());
                 }
             }

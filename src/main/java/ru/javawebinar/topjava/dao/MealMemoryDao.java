@@ -33,24 +33,21 @@ public class MealMemoryDao implements Dao<Meal> {
         );
 
         for (Meal meal : meals) {
-            add(meal);
+            save(meal);
         }
     }
 
     @Override
-    public Meal add(Meal meal) {
-        meal.setId(nextId.get());
-        return mealStorage.put(nextId.getAndIncrement(), meal);
+    public Meal save(Meal meal) {
+        if (meal.getId() == Long.MIN_VALUE) {
+            meal.setId(nextId.getAndIncrement());
+        }
+        return mealStorage.put(meal.getId(), meal);
     }
 
     @Override
     public void delete(long id) {
         mealStorage.remove(id);
-    }
-
-    @Override
-    public Meal update(Meal meal) {
-        return mealStorage.put(meal.getId(), meal);
     }
 
     @Override
