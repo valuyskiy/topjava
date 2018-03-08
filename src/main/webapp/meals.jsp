@@ -49,12 +49,13 @@ ${empty meals
 }
 
 <c:forEach items="${meals}" var="meal">
-    <tr class="${meal.isExceed() ? 'exceed' : 'normal'}">
-        <td>${meal.getDateTime().toLocalDate()} ${meal.getDateTime().toLocalTime()}</td>
-        <td>${meal.getDescription()}</td>
-        <td>${meal.getCalories()}</td>
-        <td><a href="meals?action=edit&id=${meal.getId()}">Edit</a></td>
-        <td><a href="meals?action=delete&id=${meal.getId()}">Delete</a></td>
+    <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+    <tr class="${meal.exceed ? 'exceed' : 'normal'}">
+        <td>${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}</td>
+        <td>${meal.description}</td>
+        <td>${meal.calories}</td>
+        <td><a href="meals?action=edit&id=${meal.id}">Edit</a></td>
+        <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
     </tr>
 </c:forEach>
 
