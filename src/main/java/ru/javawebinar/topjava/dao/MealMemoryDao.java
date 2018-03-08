@@ -39,7 +39,7 @@ public class MealMemoryDao implements Dao<Meal> {
 
     @Override
     public Meal save(Meal meal) {
-        if (meal.getId() == Long.MIN_VALUE) {
+        if (meal.isNew()) {
             meal.setId(nextId.getAndIncrement());
         }
         return mealStorage.put(meal.getId(), meal);

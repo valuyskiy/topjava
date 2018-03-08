@@ -60,6 +60,10 @@ public class Meal {
         this.calories = calories;
     }
 
+    public boolean isNew(){
+        return id == Long.MIN_VALUE ? true : false;
+    }
+
     @Override
     public String toString() {
         return "Meal{" +
