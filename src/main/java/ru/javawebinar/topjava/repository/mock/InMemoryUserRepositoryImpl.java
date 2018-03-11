@@ -7,10 +7,13 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 public class InMemoryUserRepositoryImpl implements UserRepository {
@@ -31,7 +34,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
 
     @Override
     public User save(User user) {
-        if (user.isNew()){
+        if (user.isNew()) {
             user.setId(counter.incrementAndGet());
             repository.put(user.getId(), user);
             log.info("new {}", user);
@@ -50,7 +53,10 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return (List<User>) repository.values();
+        return repository.values()
+                .stream()
+                .sorted(Comparator.comparing(u -> u.getName().toLowerCase()))
+                .collect(toList());
     }
 
     @Override
