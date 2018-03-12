@@ -2,8 +2,11 @@ package ru.javawebinar.topjava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javawebinar.topjava.AuthorizedUser;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
@@ -21,11 +24,6 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal create(Meal meal) {
-        return repository.save(meal);
-    }
-
-    @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id), id);
     }
@@ -36,12 +34,12 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void update(Meal meal) {
-        checkNotFoundWithId(repository.save(meal), meal.getId());
+    public Meal save(Meal meal) {
+        return repository.save(meal);
     }
 
     @Override
-    public List<Meal> getAll() {
-        return (List<Meal>) repository.getAll();
+    public List<MealWithExceed> getAll() {
+        return MealsUtil.getWithExceeded(repository.getAll(), AuthorizedUser.getCaloriesPerDay());
     }
 }
