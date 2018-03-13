@@ -24,22 +24,22 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id), id);
+    public void delete(int id, int userId) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
     @Override
-    public Meal get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id), id);
+    public Meal get(int id, int userId) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(id, userId), id);
     }
 
     @Override
-    public Meal save(Meal meal) {
-        return repository.save(meal);
+    public Meal save(Meal meal, int userId) {
+        return repository.save(meal, userId);
     }
 
     @Override
-    public List<MealWithExceed> getAll() {
-        return MealsUtil.getWithExceeded(repository.getAll(), AuthorizedUser.getCaloriesPerDay());
+    public List<MealWithExceed> getAll(int userId) {
+        return MealsUtil.getWithExceeded(repository.getAll(userId), AuthorizedUser.getCaloriesPerDay());
     }
 }
