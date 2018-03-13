@@ -9,6 +9,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Controller
@@ -33,8 +35,14 @@ public class MealRestController {
         service.delete(id, AuthorizedUser.id());
     }
 
-    public void save(Meal meal) {
-        log.info("save {}", meal);
-        service.save(meal, AuthorizedUser.id());
+    public Meal update(Meal meal) {
+        log.info("update {}", meal);
+        return service.save(meal, AuthorizedUser.id());
+    }
+
+    public Meal create() {
+        log.info("create new meal");
+        Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
+        return service.save(meal, AuthorizedUser.id());
     }
 }
