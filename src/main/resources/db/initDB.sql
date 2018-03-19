@@ -33,4 +33,5 @@ CREATE TABLE meals
   description VARCHAR                        NOT NULL,
   calories    INTEGER DEFAULT 1000           NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
-)
+);
+CREATE UNIQUE INDEX users_unique_userid_datetime_idx ON meals (user_id, datetime);
