@@ -33,23 +33,16 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        if (crudRepository
-                .findById(id)
-                .get()
-                .getUser()
-                .getId() == userId) {
-            return crudRepository.findById(id).orElse(null);
-        }
-        return null;
+        return crudRepository.findByIdAndUserId(id, userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.getAll(userId);
+        return crudRepository.findByUserIdOrderByDateTimeDesc(userId);
     }
 
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return crudRepository.getBetween(startDate, endDate, userId);
+        return crudRepository.findByDateTimeBetweenAndUserIdOrderByDateTimeDesc(startDate, endDate, userId);
     }
 }
