@@ -57,7 +57,7 @@ public abstract class ServiceTest {
                 "\n---------------------------------" +
                 results +
                 "\n---------------------------------");
-        results = new StringBuilder();
+        results.setLength(0);
     }
 
 }

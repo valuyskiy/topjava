@@ -14,11 +14,14 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
+import static ru.javawebinar.topjava.Profiles.REPOSITORY_IMPLEMENTATION;
+import static ru.javawebinar.topjava.Profiles.getActiveDbProfile;
+
 public class SpringMain {
     public static void main(String[] args) {
         // java 7 Automatic resource management
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext()) {
-            appCtx.getEnvironment().setActiveProfiles(Profiles.getActiveDbProfile(), Profiles.DATAJPA);
+        try (ConfigurableApplicationContext appCtx = (new ClassPathXmlApplicationContext())) {
+            appCtx.getEnvironment().setActiveProfiles(getActiveDbProfile(), REPOSITORY_IMPLEMENTATION);
             ((ClassPathXmlApplicationContext) appCtx).setConfigLocations("spring/spring-app.xml", "spring/spring-db.xml");
             appCtx.refresh();
 
