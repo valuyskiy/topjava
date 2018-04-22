@@ -1,10 +1,16 @@
 # TopJava REST API Documentation
 
+Base URL: http://youhost.com/topjava/rest
+
 ## Meals
 
 #### Get all Meal
  
-**GET**  [http://localhost:8080/topjava/rest/meals]
+**GET**  http  /meals
+
+Example: 
+> [http://localhost:8080/topjava/rest/meals](http://localhost:8080/topjava/rest/meals)
+
 
 Returns:
 
@@ -44,14 +50,14 @@ Status codes:
 
 ##### Get Meal by ID
  
-GET  [http://localhost:8080/topjava/rest/meals/**{id}**]
+GET http://localhost:8080/topjava/rest/meals/**{mealId}**
 
 Path parameters 
 
 id - ID of Meal
 
 
-Example: [http://localhost:8080/topjava/rest/meals/100005]
+Example: [http://localhost:8080/topjava/rest/meals/100005](http://localhost:8080/topjava/rest/meals/100005) 
 
 
 Returns:
