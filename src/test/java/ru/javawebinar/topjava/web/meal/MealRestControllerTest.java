@@ -26,6 +26,9 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     private final String REST_URL = MealRestController.MEAL_URL + "/";
 
+    @Autowired
+    protected MealService mealService;
+
     @Test
     public void testGetAll() throws Exception {
         mockMvc.perform(get(REST_URL))
