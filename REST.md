@@ -1,8 +1,10 @@
-#TopJava REST API Documentation
+TopJava REST API Documentation
+==============================
 
-##Meal
+Meals
+-----
 
-#####Get all Meal
+Get all Meal
  
 GET  http://localhost:8080/topjava/rest/meals
 
