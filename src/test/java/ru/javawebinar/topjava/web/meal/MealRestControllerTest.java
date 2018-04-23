@@ -11,16 +11,13 @@ import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.json.JsonUtil;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.util.Util.orElse;
 
 public class MealRestControllerTest extends AbstractControllerTest {
 
@@ -49,20 +46,12 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void getBetween() throws Exception {
-        LocalDate startDate = LocalDate.of(2015, 5, 31);
-        LocalDate endDate = null;
-        LocalTime startTime = LocalTime.of(13, 0);
-        LocalTime endTime = null;
 
-        mockMvc.perform(
-                get(REST_URL + "filter?" +
-                        "startDate=" + orElse(startDate, "") +
-                        "&endDate=" + orElse(endDate, "") +
-                        "&startTime=" + orElse(startTime, "") +
-                        "&endTime=" + orElse(endTime, "")
-                ))
-                .andExpect(status().isOk())
+        String filter = "filter?startDate=2015-05-31&endDate=&startTime=13:00";
+
+        mockMvc.perform(get(REST_URL + filter))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(MEAL6, MEAL5));
     }

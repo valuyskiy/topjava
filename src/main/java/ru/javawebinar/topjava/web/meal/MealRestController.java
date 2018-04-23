@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.Formatter.DateFormatter;
+import ru.javawebinar.topjava.util.Formatter.TimeFormatter;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
-import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
-import static org.springframework.format.annotation.DateTimeFormat.ISO.TIME;
 
 @RestController
 @RequestMapping(MealRestController.MEAL_URL)
@@ -35,10 +33,10 @@ public class MealRestController extends AbstractMealController {
     }
 
     @GetMapping(value = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MealWithExceed> getBetween(@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DATE) LocalDate startDate,
-                                           @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DATE) LocalDate endDate,
-                                           @RequestParam(value = "startTime", required = false) @DateTimeFormat(iso = TIME) LocalTime startTime,
-                                           @RequestParam(value = "endTime", required = false) @DateTimeFormat(iso = TIME) LocalTime endTime) {
+    public List<MealWithExceed> getBetween(@RequestParam(value = "startDate", required = false) @DateFormatter LocalDate startDate,
+                                           @RequestParam(value = "endDate", required = false) @DateFormatter LocalDate endDate,
+                                           @RequestParam(value = "startTime", required = false) @TimeFormatter LocalTime startTime,
+                                           @RequestParam(value = "endTime", required = false) @TimeFormatter LocalTime endTime) {
         return super.getBetween(startDate, startTime, endDate, endTime);
     }
 
