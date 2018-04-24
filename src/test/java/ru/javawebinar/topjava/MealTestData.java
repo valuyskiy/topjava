@@ -2,6 +2,8 @@ package ru.javawebinar.topjava;
 
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealWithExceed;
+import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.Month;
 import java.util.Arrays;
@@ -11,6 +13,7 @@ import static java.time.LocalDateTime.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
+import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 import static ru.javawebinar.topjava.web.json.JsonUtil.writeValue;
 
 public class MealTestData {
@@ -36,6 +39,10 @@ public class MealTestData {
         return new Meal(MEAL1_ID, MEAL1.getDateTime(), "Обновленный завтрак", 200);
     }
 
+    public static String getRequestFilterString() {
+        return "filter?startDate=2015-05-31&endDate=&startTime=13:00";
+    }
+
     public static void assertMatch(Meal actual, Meal expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "user");
     }
@@ -48,11 +55,19 @@ public class MealTestData {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
     }
 
-    public static ResultMatcher contentJson(Meal... expected) {
-        return content().json(writeValue(Arrays.asList(expected)));
+    public static ResultMatcher contentJson(Iterable<MealWithExceed> expected) {
+        return content().json(writeValue(expected));
     }
 
     public static ResultMatcher contentJson(Meal expected) {
         return content().json(writeValue(expected));
+    }
+
+    public static MealWithExceed getUserMealWithExceeded(Meal meal) {
+        return MealsUtil.getWithExceeded(MEALS, DEFAULT_CALORIES_PER_DAY)
+                .stream()
+                .filter(a -> a.getId() == meal.getId())
+                .findFirst()
+                .orElse(null);
     }
 }
