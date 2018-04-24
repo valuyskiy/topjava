@@ -66,21 +66,18 @@ public class MealRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        Meal updated = new Meal(MEAL6);
-        updated.setCalories(777);
-        updated.setDescription("Поздний ужин");
-        mockMvc.perform(put(REST_URL + MEAL6.getId())
+        Meal updated = getUpdated();
+        mockMvc.perform(put(REST_URL + updated.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk())
                 .andDo(print());
-        updated.setId(MEAL6.getId());
-        assertMatch(mealService.get(MEAL6.getId(), AuthorizedUser.id()), updated);
+        assertMatch(mealService.get(MEAL1_ID, AuthorizedUser.id()), updated);
     }
 
     @Test
     public void testCreate() throws Exception {
-        Meal expected = new Meal(LocalDateTime.now(), "Новая тестовая еда", 999);
+        Meal expected = getCreated();
         ResultActions actions = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected)))
