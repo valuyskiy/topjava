@@ -29,7 +29,8 @@ function deleteRow(id) {
 }
 
 function updateTable() {
-    $.get(ajaxUrl, function (data) {
+    var filter = getFilter();
+    $.get(ajaxUrl + filter, function (data) {
         datatableApi.clear().rows.add(data).draw();
     });
 }
@@ -46,6 +47,11 @@ function save() {
             successNoty("Saved");
         }
     });
+}
+
+function reset() {
+    $(":input").val("");
+    updateTable();
 }
 
 var failedNote;

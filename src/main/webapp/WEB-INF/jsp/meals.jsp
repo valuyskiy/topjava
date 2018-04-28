@@ -13,7 +13,7 @@
     <div class="container">
         <h3><spring:message code="meal.title"/></h3>
 
-        <form method="post" action="meals/filter">
+        <form id="filterForm">
             <dl>
                 <dt><spring:message code="meal.startDate"/>:</dt>
                 <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
@@ -30,12 +30,17 @@
                 <dt><spring:message code="meal.endTime"/>:</dt>
                 <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
             </dl>
-            <button class="btn btn-primary"  onclick="filter()">
-                <span class="fa fa-filter"></span>
-                <spring:message code="meal.filter"/>
-            </button>
         </form>
 
+        <button class="btn btn-primary" onclick="reset()">
+            <span class="fa fa-times"/>
+        </button>
+
+        <button class="btn btn-primary" onclick="updateTable()">
+            <span class="fa fa-filter"/>
+        </button>
+
+        <br>    <br>
 
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
@@ -86,7 +91,7 @@
 
                     <div class="form-group">
                         <label for="description" class="col-form-label"><spring:message code="meal.description"/></label>
-                        <input type="test" class="form-control" id="description" name="description"
+                        <input type="text" class="form-control" id="description" name="description"
                                placeholder="<spring:message code="meal.description"/>">
                     </div>
 
