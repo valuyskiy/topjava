@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <jsp:include page="fragments/headTag.jsp"/>
 <body>
@@ -12,35 +13,40 @@
 <div class="jumbotron">
     <div class="container">
         <h3><spring:message code="meal.title"/></h3>
+        <div class="row">
+            <form id="filterForm">
+                <div class="form-group">
+                    <label for="startDate"><spring:message code="meal.startDate"/>:</label>
+                    <input type="date" class="form-control" id="startDate" name="startDate"
+                           value="${param.startDate}"/>
+                </div>
 
-        <form id="filterForm">
-            <dl>
-                <dt><spring:message code="meal.startDate"/>:</dt>
-                <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
-            </dl>
-            <dl>
-                <dt><spring:message code="meal.endDate"/>:</dt>
-                <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
-            </dl>
-            <dl>
-                <dt><spring:message code="meal.startTime"/>:</dt>
-                <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
-            </dl>
-            <dl>
-                <dt><spring:message code="meal.endTime"/>:</dt>
-                <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
-            </dl>
-        </form>
+                <div class="form-group">
+                    <label for="endDate"><spring:message code="meal.endDate"/>:</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate"
+                           value="${param.endDate}"/>
+                </div>
 
-        <button class="btn btn-primary" onclick="reset()">
+                <div class="form-group">
+                    <label for="startTime"><spring:message code="meal.startTime"/>:</label>
+                    <input type="time" class="form-control" id="startTime" name="startTime"
+                           value="${param.startTime}"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="endTime"><spring:message code="meal.endTime"/>:</label>
+                    <input type="time" class="form-control" id="endTime" name="endTime"
+                           value="${param.endTime}"/>
+                </div>
+            </form>
+        </div>
+        <button class="btn btn-danger" onclick="reset()">
             <span class="fa fa-times"/>
         </button>
 
-        <button class="btn btn-primary" onclick="updateTable()">
+        <button class="btn btn-success" onclick="updateTable()">
             <span class="fa fa-filter"/>
         </button>
-
-        <br>    <br>
 
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
