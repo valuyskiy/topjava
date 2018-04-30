@@ -57,6 +57,7 @@ function enable(id, isEnable) {
     $.ajax({
         url: ajaxUrl + id + "/" + isEnable,
         type: "POST",
-        async: false
+        async: false,
+        success:successNoty(isEnable ? "User enabled" : "Used disabled")
     });
 }
