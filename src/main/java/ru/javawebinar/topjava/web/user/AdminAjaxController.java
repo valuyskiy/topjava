@@ -34,4 +34,12 @@ public class AdminAjaxController extends AbstractUserController {
             super.create(user);
         }
     }
+
+    @PostMapping("/{id}/{isEnable}")
+    public void userEnable(@PathVariable("id") int id, @PathVariable("isEnable") boolean isEnable) {
+        User user = super.get(id);
+        user.setEnabled(isEnable);
+        super.update(user, id);
+    }
+
 }

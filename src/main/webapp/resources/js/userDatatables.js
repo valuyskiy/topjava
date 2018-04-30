@@ -39,4 +39,24 @@ $(function () {
         ]
     });
     makeEditable();
+
+    $(':checkbox').change(function () {
+        var id = $(this).parents("tr").attr("id");
+        var c = this.checked;
+        enable(id, c);
+        updateTable();
+    });
+
 });
+
+function getFilter() {
+    return "";
+}
+
+function enable(id, isEnable) {
+    $.ajax({
+        url: ajaxUrl + id + "/" + isEnable,
+        type: "POST",
+        async: false
+    });
+}
