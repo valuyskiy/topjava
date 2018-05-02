@@ -49,10 +49,6 @@ $(function () {
 
 });
 
-function getFilter() {
-    return "";
-}
-
 function enable(id, isEnable) {
     $.ajax({
         url: ajaxUrl + id + "/" + isEnable,

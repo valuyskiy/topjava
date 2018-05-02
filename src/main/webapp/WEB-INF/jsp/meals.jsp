@@ -44,7 +44,7 @@
             <span class="fa fa-times"/>
         </button>
 
-        <button class="btn btn-success" onclick="updateTable()">
+        <button class="btn btn-success" onclick="filter()">
             <span class="fa fa-filter"/>
         </button>
 
