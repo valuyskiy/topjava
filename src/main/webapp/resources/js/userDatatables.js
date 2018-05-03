@@ -44,7 +44,7 @@ $(function () {
         var id = $(this).parents("tr").attr("id");
         var c = this.checked;
         enable(id, c);
-        updateTable();
+        $(this).parents("tr").attr("data-userEnabled" , c);
     });
 
 });
