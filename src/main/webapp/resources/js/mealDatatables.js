@@ -16,11 +16,25 @@ function clearFilter() {
 
 $(function () {
     datatableApi = $("#datatable").DataTable({
+        "ajax": {
+            "url": ajaxUrl,
+            "dataSrc": ""
+        },
+        "createdRow":
+            function (row, data, dataIndex) {
+                $(row).attr('data-mealExceed', data.exceed);
+            },
         "paging": false,
         "info": true,
         "columns": [
             {
-                "data": "dateTime"
+                "data": "dateTime",
+                "render": function (date, type, row) {
+                    if (type === "display") {
+                        return date.substring(0, 10) + " " + date.substring(11,16);
+                    }
+                    return date;
+                }
             },
             {
                 "data": "description"
@@ -29,12 +43,14 @@ $(function () {
                 "data": "calories"
             },
             {
-                "defaultContent": "Edit",
-                "orderable": false
+                "defaultContent": "",
+                "orderable": false,
+                "render": renderEditBtn
             },
             {
-                "defaultContent": "Delete",
-                "orderable": false
+                "defaultContent": "",
+                "orderable": false,
+                "render": renderDeleteBtn
             }
         ],
         "order": [
