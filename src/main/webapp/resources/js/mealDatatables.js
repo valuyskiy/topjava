@@ -31,7 +31,7 @@ $(function () {
                 "data": "dateTime",
                 "render": function (date, type, row) {
                     if (type === "display") {
-                        return date.substring(0, 10) + " " + date.substring(11,16);
+                        return date.substring(0, 10) + " " + date.substring(11, 16);
                     }
                     return date;
                 }
@@ -60,5 +60,22 @@ $(function () {
             ]
         ]
     });
+
+    $('#startDate, #endDate').datetimepicker({
+            timepicker: false,
+            format: 'Y-m-d'
+        }
+    );
+
+    $('#startTime, #endTime').datetimepicker({
+            datepicker: false,
+            format: 'H:i'
+        }
+    );
+
+    $('#dateTime').datetimepicker({
+        format: 'Y-m-d\\TH:i'
+    });
+
     makeEditable();
 });
