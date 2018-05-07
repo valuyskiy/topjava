@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.util.Util;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -40,17 +41,14 @@ public class MealAjaxController extends AbstractMealController {
     @PostMapping
     public ResponseEntity<String> createOrUpdate(@Valid MealTo mealTo, BindingResult result) {
         if (result.hasErrors()) {
-            StringBuilder sb = new StringBuilder();
-            result.getFieldErrors().forEach(fe -> sb.append(fe.getField()).append(" ").append(fe.getDefaultMessage()).append("<br>"));
-            return new ResponseEntity<>(sb.toString(), HttpStatus.EXPECTATION_FAILED);
-        } else {
-            if (mealTo.isNew()) {
-                super.create(MealsUtil.createNewFromTo(mealTo));
-            } else {
-                super.update(mealTo, mealTo.getId());
-            }
-            return new ResponseEntity<>(HttpStatus.OK);
+            return Util.errorResponse(result);
         }
+        if (mealTo.isNew()) {
+            super.create(MealsUtil.createNewFromTo(mealTo));
+        } else {
+            super.update(mealTo, mealTo.getId());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
