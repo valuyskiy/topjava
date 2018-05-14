@@ -96,6 +96,20 @@ public class AdminRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    public void testUpdateNotValidEntity() throws Exception {
+        User updated = new User(USER);
+        updated.setName("U");
+        updated.setCaloriesPerDay(5);
+
+        mockMvc.perform(put(REST_URL + USER_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(JsonUtil.writeValue(updated)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     public void testCreate() throws Exception {
         User expected = new User(null, "New", "new@gmail.com", "newPass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
         ResultActions action = mockMvc.perform(post(REST_URL)
@@ -109,6 +123,18 @@ public class AdminRestControllerTest extends AbstractControllerTest {
 
         assertMatch(returned, expected);
         assertMatch(userService.getAll(), ADMIN, expected, USER);
+    }
+
+    @Test
+    public void testCreateNotValidEntity() throws Exception {
+        User expected = new User(null, "New", "new.gmail.com", "Pass", 2300, Role.ROLE_USER, Role.ROLE_ADMIN);
+
+        mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(ADMIN))
+                .content(jsonWithPassword(expected, "Pass")))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
