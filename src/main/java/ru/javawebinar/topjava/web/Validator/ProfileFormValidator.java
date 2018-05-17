@@ -13,8 +13,12 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 @Component
 public class ProfileFormValidator implements Validator {
 
+    protected final UserService service;
+
     @Autowired
-    protected UserService service;
+    public ProfileFormValidator(UserService service) {
+        this.service = service;
+    }
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -26,7 +30,7 @@ public class ProfileFormValidator implements Validator {
         try {
             UserTo userTo = (UserTo) target;
             User updatedUser = service.getByEmail(userTo.getEmail());
-            if (AuthorizedUser.id() != updatedUser.getId()) {
+            if (AuthorizedUser.safeGet() == null || updatedUser.getId() != AuthorizedUser.id()) {
                 errors.rejectValue("email", "user.emailExist");
             }
         } catch (NotFoundException e) {
